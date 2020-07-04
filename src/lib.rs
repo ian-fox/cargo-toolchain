@@ -57,6 +57,40 @@ pub fn get_directory_toolchain() -> Result<String> {
     Ok(truncate_toolchain(toolchain))
 }
 
+/// Get the toolchain flag that cargo was invoked with.
+///
+/// If cargo was started with a toolchain flag, e.g. `+nightly`, returns that flag.
+/// Otherwise returns the empty string.
+///
+/// # Errors
+///
+/// If the `rustup` command fails or its output cannot be interpreted as utf-8,
+/// an error is returned.
+pub fn get_cargo_toolchain_flag() -> Result<String> {
+    let directory_toolchain = get_directory_toolchain()?;
+    let active_toolchain = get_active_toolchain()?;
+
+    if directory_toolchain == active_toolchain {
+        return Ok(String::from(""));
+    }
+
+    Ok(format!("+{}", active_toolchain))
+}
+
+/// Wrapper around [`get_active_toolchain`](./fn.get_active_toolchain.html)
+/// and [`get_directory_toolchain`](./fn.get_directory_toolchain.html)
+///
+/// # Errors
+/// If the `rustup` command fails or its output cannot be interpreted as utf-8,
+/// an error is returned.
+pub fn get_toolchain(directory_default: bool) -> Result<String> {
+    if directory_default {
+        return get_directory_toolchain();
+    }
+
+    get_active_toolchain()
+}
+
 /// Truncate the triple from a toolchain name if it's one of the defaults.
 ///
 /// # Examples
@@ -79,14 +113,4 @@ pub fn truncate_toolchain(toolchain: String) -> String {
     }
 
     toolchain
-}
-
-/// Wrapper around [`get_active_toolchain`](./fn.get_active_toolchain.html)
-/// and [`get_directory_toolchain`](./fn.get_directory_toolchain.html)
-pub fn get_toolchain(directory_default: bool) -> Result<String> {
-    if directory_default {
-        return get_directory_toolchain();
-    }
-
-    get_active_toolchain()
 }

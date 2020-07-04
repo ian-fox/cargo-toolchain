@@ -5,6 +5,7 @@ authors = ["Ian Fox <iansfox@pm.me>"]
 edition = "2018"
 description = "Utility to get information on active rustup toolchains"
 readme = "README.md"
+homepage = "https://github.com/ian-fox/cargo-toolchain"
 repository = "https://github.com/ian-fox/cargo-toolchain"
 license = "MIT OR Apache-2.0"
 keywords = ["cargo", "toolchain", "rustup"]
