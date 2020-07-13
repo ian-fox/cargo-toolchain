@@ -22,7 +22,19 @@ cargo toolchain -h # print help message
 ```bash
 cargo_prompt() {
   # cargo locate-project will tell us if we're in a rust project (sub)directory or not
-  cargo locate-project >/dev/null 2>/dev/null && echo " (`cargo toolchain`)"
+  cargo locate-project >/dev/null 2>/dev/null || return
+
+  local TOOLCHAIN=`cargo toolchain`
+
+  if [ "$TOOLCHAIN" == "stable" ]; then
+    echo -en " \e[32m(stable)\e[00m"
+  elif [ "$TOOLCHAIN" == "beta" ]; then
+    echo -en " \e[33m(beta)\e[00m"
+  elif [ "$TOOLCHAIN" == "nightly" ]; then
+    echo -en " \e[31m(nightly)\e[00m"
+  else
+    echo -en " \e[35m(${TOOLCHAIN})\e[00m"
+  fi
 }
 export PS1='[\u@\h \W`cargo_prompt`]\$ '
 ```
