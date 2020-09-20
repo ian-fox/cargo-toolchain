@@ -1,5 +1,8 @@
 //! # cargo-toolchain
 //!
+//! Note: This has turned out to be less useful than I originally thought it would be. If you would like to use the name for
+//!       your crate, just shoot me an email at iansfox@protonmail.com
+//!
 //! `cargo-toolchain` is a utility to get the currently active and default
 //! [rustup toolchains](https://doc.rust-lang.org/stable/book/appendix-07-nightly-rust.html#rustup-and-the-role-of-rust-nightly).
 //!
